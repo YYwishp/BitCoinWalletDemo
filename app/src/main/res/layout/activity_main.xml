@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gyx.bitcoinwalletdemo.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <TextView
+                tools:text="20"
+                android:id="@+id/balance"
+                android:textColor="#f0f"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/address"
+                android:textSize="25sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="address!"
+                />
+
+
+
+
+
+            <TextView
+                android:id="@+id/privtekey"
+                tools:text="私钥"
+                android:textColor="#900"
+                android:textSize="25sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/mnemonic"
+                tools:text="助记词"
+                android:textSize="25sp"
+                android:textColor="#456789"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:background="#f0f"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+
+            <TextView
+                android:textSize="25sp"
+                android:text="恢复钱包"
+                android:textColor="#000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/ed_mnemonic"
+                android:hint="输入助记词"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/scaner"
+                android:layout_marginTop="20dp"
+                android:text="扫描"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/recovery"
+                android:layout_marginTop="10dp"
+                android:text="恢复"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
