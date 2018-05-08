@@ -1,6 +1,7 @@
 package com.gyx.bitcoinwalletdemo;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -15,9 +16,15 @@ public class BitCoinTestApplication extends Application {
 	public static final String ACTION_WALLET_REFERENCE_CHANGED = BitCoinTestApplication.class.getPackage().getName() + ".wallet_reference_changed";
 
 	public static String COINWALL_ENV = "stagging";
+
+	private static Context instance;
+	public static Context getInstance() {
+		return instance;
+	}
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		instance=this;
 		//====初始化网络
 		initNetModular();
 	}

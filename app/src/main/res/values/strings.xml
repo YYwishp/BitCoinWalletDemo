@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BitCoinWalletDemo</string>
+    <string name="title_activity_eth_contract_transaction">EthContractTransactionActivity</string>
 </resources>

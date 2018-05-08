@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,104 +12,133 @@
         android:layout_height="match_parent"
         >
 
-
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
-                tools:text="20"
                 android:id="@+id/balance"
-                android:textColor="#f0f"
-                android:textSize="30sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/address"
-                android:textSize="25sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#f0f"
+                android:textSize="30sp"
+                tools:text="20" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
                 tools:text="address!"
                 />
 
-
-
-
-
             <TextView
                 android:id="@+id/privtekey"
-                tools:text="私钥"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="#900"
                 android:textSize="25sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                tools:text="私钥" />
 
             <TextView
                 android:id="@+id/mnemonic"
-                tools:text="助记词"
-                android:textSize="25sp"
-                android:textColor="#456789"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:background="#f0f"
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
-
-            <TextView
-                android:textSize="25sp"
-                android:text="恢复钱包"
-                android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:textColor="#456789"
+                android:textSize="25sp"
+                tools:text="助记词" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="#f0f" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="恢复钱包"
+                android:textColor="#000"
+                android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/ed_mnemonic"
-                android:hint="输入助记词"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="输入助记词" />
 
-            <Button
-                android:id="@+id/scaner"
-                android:layout_marginTop="20dp"
-                android:text="扫描"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/recovery"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="恢复"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/scaner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="扫描" />
 
+                <Button
+                    android:id="@+id/recovery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="恢复" />
+            </LinearLayout>
 
+            <EditText
+                android:id="@+id/ed_transction_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="转币金额" />
 
+            <EditText
+                android:id="@+id/ed_transction_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="收币地址" />
 
+            <Button
+                android:id="@+id/bt_scaner_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="扫码" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发送返回的数据:"
+                    android:textColor="#000"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_transction_callback_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="dsfdsfds"
+                    android:textColor="#555"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bt_send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:text="发送" />
         </LinearLayout>
-
-
-
-
     </ScrollView>
-
-
-
-
-
-
-
-
-
-
-
 </LinearLayout>

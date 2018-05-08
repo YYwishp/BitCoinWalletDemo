@@ -22,13 +22,9 @@ import com.gyx.bitcoinwalletdemo.zxing.activity.CaptureActivity;
 import com.gyx.bitcoinwalletdemo.zxing.utils.CommonUtil;
 
 import org.bitcoinj.core.Address;
-import org.bitcoinj.core.DumpedPrivateKey;
-import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.kits.WalletAppKit;
-import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
@@ -38,8 +34,6 @@ import org.bitcoinj.wallet.WalletExtension;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-
-import javax.xml.bind.DatatypeConverter;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -53,6 +47,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 	private EditText edMnemonic;
 	private Button scaner;
 	private Button recovery;
+
+	private EditText edTransctionAmount;
+	private EditText edTransctionAddress;
+	private Button btScanerAddress;
+	private TextView tvTransctionCallbackData;
+	private Button btSend;
 	private NetworkParameters parameters;
 	/**
 	 * 请求CAMERA权限码
@@ -100,16 +100,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 		edMnemonic = (EditText) findViewById(R.id.ed_mnemonic);
 		scaner = (Button) findViewById(R.id.scaner);
 		recovery = (Button) findViewById(R.id.recovery);
+
+
+		edTransctionAmount = (EditText) findViewById(R.id.ed_transction_amount);
+		edTransctionAddress = (EditText) findViewById(R.id.ed_transction_address);
+		btScanerAddress = (Button) findViewById(R.id.bt_scaner_address);
+		tvTransctionCallbackData = (TextView) findViewById(R.id.tv_transction_callback_data);
+		btSend = (Button) findViewById(R.id.bt_send);
+
 		scaner.setOnClickListener(this);
 		recovery.setOnClickListener(this);
+		btScanerAddress.setOnClickListener(this);
+		btSend.setOnClickListener(this);
 		progressDialog = new ProgressDialog(this);
-		//initWallet();
-
-
-
-
-
-
+		initWallet();
 	}
 
 	private void initWallet() {
@@ -121,7 +125,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 				parameters = TestNet3Params.get();
 				//先实例化一个file对象，参数为路径名
 //				file = new File("/mnt/sdcard/cointest.txt");
-
 				if (!file.exists()) {
 					//创建钱包
 					wallet = new Wallet(parameters);
@@ -167,7 +170,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 	}
 
 	public void showWalletInfo(File file) {
@@ -220,10 +222,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 		}
 	}
 
-
-
-
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -238,12 +236,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 					//恢复
 					recoveryWallet(trim);
 				}
+
+
+				break;
+
+			//扫描地址
+			case R.id.bt_scaner_address:
+				break;
+			//发送
+			case R.id.bt_send:
 				break;
 		}
 	}
 
 	/**
 	 * 恢复钱包
+	 *
 	 * @param seedCode
 	 */
 	private void recoveryWallet(final String seedCode) {
@@ -263,15 +271,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 				} catch (UnreadableWalletException e) {
 					e.printStackTrace();
 				}
-
 			}
 		}.start();
 	}
 
-	private void showBalance() {
-		System.out.println("当前地址: " + kit.wallet().currentReceiveAddress());
-		System.out.println("金额: " + kit.wallet().getBalance());
-	}
+
 	///////////////////////////////////////////////////////////////////////////
 	//摄像头扫码部分
 	///////////////////////////////////////////////////////////////////////////

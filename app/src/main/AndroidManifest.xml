@@ -29,10 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
-
+        <activity android:name=".CreateWalletActivity">
+        </activity>
         <activity
             android:name=".zxing.activity.CaptureActivity"
             android:screenOrientation="portrait"
@@ -47,7 +45,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
+
         <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".EthTransactionActivity">
+        </activity>
+        <activity
+            android:name=".EthContractTransactionActivity"
+           >
         </activity>
     </application>
 </manifest>
