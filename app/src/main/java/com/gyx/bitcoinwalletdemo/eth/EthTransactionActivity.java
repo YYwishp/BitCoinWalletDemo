@@ -1,4 +1,4 @@
-package com.gyx.bitcoinwalletdemo;
+package com.gyx.bitcoinwalletdemo.eth;
 
 import android.Manifest;
 import android.content.Intent;
@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gyx.bitcoinwalletdemo.BaseActivity;
+import com.gyx.bitcoinwalletdemo.R;
+import com.gyx.bitcoinwalletdemo.Web3JService;
 import com.gyx.bitcoinwalletdemo.bean.KeyStoreBean;
-import com.gyx.bitcoinwalletdemo.eth.EthWalletUtil;
 import com.gyx.bitcoinwalletdemo.util.KeyStoreUtils;
 import com.gyx.bitcoinwalletdemo.zxing.activity.CaptureActivity;
 import com.gyx.bitcoinwalletdemo.zxing.utils.CommonUtil;
@@ -167,15 +169,29 @@ public class EthTransactionActivity extends BaseActivity implements View.OnClick
 			}
 		}).subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Consumer<EthGetBalance>() {
+				.subscribe(new Observer<EthGetBalance>() {
 					@Override
-					public void accept(EthGetBalance ethGetBalance) throws Exception {
+					public void onSubscribe(Disposable d) {
+					}
+
+					@Override
+					public void onNext(EthGetBalance ethGetBalance) {
 						if (ethGetBalance != null) {
 							if (ethGetBalance.getError() == null) {
+								//换算出ETHER
 								BigDecimal balanceDecimal = Convert.fromWei(ethGetBalance.getBalance().toString(), Convert.Unit.ETHER);
 								tvBalance.setText(balanceDecimal.toPlainString());
 							}
 						}
+					}
+
+					@Override
+					public void onError(Throwable e) {
+
+					}
+
+					@Override
+					public void onComplete() {
 					}
 				});
 	}
@@ -264,6 +280,7 @@ public class EthTransactionActivity extends BaseActivity implements View.OnClick
 		//
 		final String value = edValue.getText().toString().trim();
 		Double aDouble = Double.valueOf(value);
+		//toWei转换为18位的wei
 		final BigInteger bigValue = Convert.toWei(BigDecimal.valueOf(aDouble), Convert.Unit.ETHER).toBigInteger();
 		//gasPrice
 		final String gasPrice = edGasPrice.getText().toString().trim();
@@ -273,6 +290,9 @@ public class EthTransactionActivity extends BaseActivity implements View.OnClick
 		final String gasLimit = edGasLimit.getText().toString().trim();
 
 		final String nonce = edNonce.getText().toString().trim();
+
+
+
 		Observable.create(new ObservableOnSubscribe<EthSendTransaction>() {
 			@Override
 			public void subscribe(ObservableEmitter<EthSendTransaction> e) throws Exception {

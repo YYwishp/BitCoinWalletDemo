@@ -23,6 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- Launcher -->
         <activity android:name=".TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,11 +49,11 @@
 
         <activity android:name=".MainActivity">
         </activity>
-        <activity android:name=".EthTransactionActivity">
+        <activity android:name=".eth.EthTransactionActivity">
         </activity>
-        <activity
-            android:name=".EthContractTransactionActivity"
-           >
+        <activity android:name=".eth.EthContractTransactionActivity">
+        </activity>
+        <activity android:name=".btcCoin.BtcTransactionActivity">
         </activity>
     </application>
 </manifest>

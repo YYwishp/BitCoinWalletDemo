@@ -199,15 +199,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 		RequestUtils.getInstance().getAddressBalance(addressString, new OnDownLoadListener<AddressBalanceBean>() {
 			@Override
 			public void onSuccess(AddressBalanceBean addressBalanceBean) {
+				String final_balance = addressBalanceBean.getFinal_balance();
+
 			}
 
 			@Override
 			public void onFailed(Exception e) {
 			}
 		});
-		RequestUtils.getInstance().getUnspent(addressString, new OnDownLoadListener<AddressBalanceBean>() {
+		RequestUtils.getInstance().getUnspent(addressString, new OnDownLoadListener<String>() {
 			@Override
-			public void onSuccess(AddressBalanceBean addressBalanceBean) {
+			public void onSuccess(String addressBalanceBean) {
 			}
 
 			@Override

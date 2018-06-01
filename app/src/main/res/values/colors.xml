@@ -28,5 +28,5 @@
 
     <color name="menu_bg">#535353</color>
     <color name="yellow">#f2ac35</color>
-
+    <color name="red">#ff0000</color>
 </resources>

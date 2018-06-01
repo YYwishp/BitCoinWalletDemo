@@ -8,6 +8,10 @@ import com.gyx.bitcoinwalletdemo.callback.DialogCallback;
 import com.gyx.bitcoinwalletdemo.callback.OnDownLoadListener;
 import com.lzy.okgo.OkGo;
 
+import org.json.JSONObject;
+
+import java.util.Iterator;
+
 import okhttp3.Call;
 import okhttp3.Headers;
 import okhttp3.Response;
@@ -55,17 +59,33 @@ public class RequestUtils {
 				.params("cors", true)//
 				.execute(new DialogCallback<AddressBalanceBean>() {
 					@Override
-					public void onSuccess(AddressBalanceBean beanArrayList, Call call, Response response) {
-						onDownDataListener.onSuccess(beanArrayList);
+					public void onSuccess(AddressBalanceBean bean, Call call, Response response) {
+						onDownDataListener.onSuccess(bean);
 					}
 //
 
 					@Override
 					public AddressBalanceBean convertSuccess(Response response) throws Exception {
-						String string = response.body().string();
-						//
-//						AddressBalanceBean bean = Convert.fromJson(string, AddressBalanceBean.class);
+						String json = response.body().string();
+						if (json == null) {
+							return null;
+						}
+						JSONObject jsonObject = new JSONObject(json);
+						Iterator<String> iterator = jsonObject.keys();
+						while (iterator.hasNext()) {
+							String key = iterator.next();
+							if (key != null) {
+								JSONObject jsb = jsonObject.getJSONObject(key);
+								AddressBalanceBean bean = new AddressBalanceBean();
+								bean.setFinal_balance(jsb.getString("final_balance"));
+								bean.setN_tx(jsb.getString("n_tx"));
+								bean.setTotal_received(jsb.getString("total_received"));
+								return bean;
+							}
+						}
 						return null;
+
+
 					}
 
 					@Override
@@ -81,25 +101,24 @@ public class RequestUtils {
 	 *
 	 * @param onDownDataListener
 	 */
-	public void getUnspent( String active, final OnDownLoadListener<AddressBalanceBean> onDownDataListener) {
+	public void getUnspent( String active, final OnDownLoadListener<String> onDownDataListener) {
 		setHost();
 		//请求网络
 		OkGo.get(Urls.UNSPENT)//
 				.tag(this)//
 				.params("active", active)//
 				.params("cors", true)//
-				.execute(new DialogCallback<AddressBalanceBean>() {
+				.execute(new DialogCallback<String>() {
 					@Override
-					public void onSuccess(AddressBalanceBean bean, Call call, Response response) {
+					public void onSuccess(String bean, Call call, Response response) {
 						onDownDataListener.onSuccess(bean);
 
 					}
 
 					@Override
-					public AddressBalanceBean convertSuccess(Response response) throws Exception {
-
-
-						return null;
+					public String convertSuccess(Response response) throws Exception {
+						String string = response.body().string();
+						return string;
 					}
 
 					@Override

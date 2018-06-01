@@ -1,4 +1,4 @@
-package com.gyx.bitcoinwalletdemo;
+package com.gyx.bitcoinwalletdemo.eth;
 
 import android.Manifest;
 import android.content.Intent;
@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gyx.bitcoinwalletdemo.BaseActivity;
+import com.gyx.bitcoinwalletdemo.R;
+import com.gyx.bitcoinwalletdemo.Web3JService;
 import com.gyx.bitcoinwalletdemo.bean.KeyStoreBean;
-import com.gyx.bitcoinwalletdemo.eth.EthWalletUtil;
 import com.gyx.bitcoinwalletdemo.util.KeyStoreUtils;
 import com.gyx.bitcoinwalletdemo.zxing.activity.CaptureActivity;
 import com.gyx.bitcoinwalletdemo.zxing.utils.CommonUtil;
@@ -165,12 +167,24 @@ public class EthContractTransactionActivity extends BaseActivity implements View
 			}
 		}).subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Consumer<String>() {
+				.subscribe(new Observer<String>() {
 					@Override
-					public void accept(String s) throws Exception {
+					public void onSubscribe(Disposable d) {
+					}
+
+					@Override
+					public void onNext(String s) {
 						if (s != null) {
 							tvContractSymbol.setText(s);
 						}
+					}
+
+					@Override
+					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onComplete() {
 					}
 				});
 	}
@@ -201,14 +215,26 @@ public class EthContractTransactionActivity extends BaseActivity implements View
 			}
 		}).subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Consumer<BigDecimal>() {
+				.subscribe(new Observer<BigDecimal>() {
 					@Override
-					public void accept(BigDecimal bigDecimal) throws Exception {
+					public void onSubscribe(Disposable d) {
+					}
+
+					@Override
+					public void onNext(BigDecimal bigDecimal) {
 						if (bigDecimal != null) {
 							contract_balance = bigDecimal.toPlainString();
 							tvBalance.setText("代币Balance：" + contract_balance);
 							Log.e("代币数量（处理后）", contract_balance);
 						}
+					}
+
+					@Override
+					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onComplete() {
 					}
 				});
 	}

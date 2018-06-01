@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.common.base.Joiner;
+import com.gyx.bitcoinwalletdemo.btcCoin.BtcTransactionActivity;
+import com.gyx.bitcoinwalletdemo.btcCoin.azazar.bitcoin.jsonrpcclient.Bitcoin;
+import com.gyx.bitcoinwalletdemo.btcCoin.azazar.bitcoin.jsonrpcclient.BitcoinException;
+import com.gyx.bitcoinwalletdemo.btcCoin.azazar.bitcoin.jsonrpcclient.BitcoinJSONRPCClient;
+import com.gyx.bitcoinwalletdemo.eth.EthContractTransactionActivity;
+import com.gyx.bitcoinwalletdemo.eth.EthTransactionActivity;
 import com.gyx.bitcoinwalletdemo.eth.EthWalletUtil;
 import com.gyx.bitcoinwalletdemo.util.KeyStoreUtils;
 
@@ -32,6 +38,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static rx.schedulers.Schedulers.test;
 
 public class CreateWalletActivity extends AppCompatActivity {
 	private TextView tvEthAddress;
@@ -61,6 +69,36 @@ public class CreateWalletActivity extends AppCompatActivity {
 		tvBtcBalance = (TextView) findViewById(R.id.tv_btc_balance);
 		progressDialog = new ProgressDialog(this);
 		createBtcEthWallet();
+	}
+
+	/**
+	 * 测试比特币RPC接口
+	 *
+	 */
+	private void test8() {
+		BitcoinJSONRPCClient bitcoin = new BitcoinJSONRPCClient();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Bitcoin.Info info = bitcoin.getInfo();
+					final String s = info.toString();
+					//List<Bitcoin.Unspent> unspents = bitcoin.listUnspent();
+
+					List<Bitcoin.Unspent> unspents = bitcoin.listUnspent(1, 99999);
+					String hex = "010000000001014be5393e4ee79bde40558f637679ab04a9a90a02409a927d3a542e46537e5e05000000006a473044022034b35843bac9bac485724b042ca31f6879e3766a3540402a437bf5bb5fd7e4ea02205149a8e1c3704f80814b8c6d69d646221cab6c8eab42fb14e3279ab1a7424427012102a2af8bbb39a0b66eb3b26436133a8becbde5dad297f02c238280ae78721f0210ffffffff02002d3101000000001976a914f65af6aaeb109376da8cbbcd4ed6c4bc9a0ff1bf88ac7840ae02000000001976a91467cfec849adc3fa8f3a4c692f39b79e9a4b6229f88ac0000000000";
+					// final String s1 = bitcoin.sendRawTransaction(hex);//发送交易签名
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							tvBtcBalance.setText(s);
+						}
+					});
+				} catch (BitcoinException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	/**
@@ -211,6 +249,12 @@ public class CreateWalletActivity extends AppCompatActivity {
 	 * @param view
 	 */
 	public void btcTransaction(View view) {
+
+		startActivity(new Intent(this,BtcTransactionActivity.class));
+
+
+
+
 	}
 
 	private Wallet initBtcWallet() {
@@ -222,6 +266,8 @@ public class CreateWalletActivity extends AppCompatActivity {
 			wallet = new Wallet(parameters);
 			Log.e(Tag, "创建新的BTC");
 		} else {
+			//从本地恢复钱包
+			try {
 			WalletExtension walletExtension = new WalletExtension() {
 				@Override
 				public String getWalletExtensionID() {
@@ -242,8 +288,7 @@ public class CreateWalletActivity extends AppCompatActivity {
 				public void deserializeWalletExtension(Wallet containingWallet, byte[] data) throws Exception {
 				}
 			};
-			//从本地恢复钱包
-			try {
+
 				wallet = Wallet.loadFromFile(fireBtc, walletExtension);
 				Log.e(Tag, "从文件恢复BTC");
 			} catch (UnreadableWalletException e) {
